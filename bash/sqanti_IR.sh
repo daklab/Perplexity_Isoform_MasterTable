@@ -36,8 +36,8 @@ set -e
 # ========================================
 
 # Input / output directories
-COLDIR="/path/to/collapsed_no_treatment"
-OUTDIR="/path/to/sqanti_IR_no_treatment"
+COLDIR="/path/to/collapsed"
+OUTDIR="/path/to/sqanti_IR"
 
 # Reference genome and annotation
 REFERENCE="/path/to/GRCh38_no_alt_analysis_set.fna"
@@ -70,17 +70,17 @@ mkdir -p ${OUTDIR}
 
 echo "Concatenating PSL files..."
 for i in {1..22} X Y; do
-    if [ -f ${COLDIR}/chr${i}/all_samples_sp_collapse_chr${i}_no_treatment_isoform_full.psl ]; then
-        cat ${COLDIR}/chr${i}/all_samples_sp_collapse_chr${i}_no_treatment_isoform_full.psl
+    if [ -f ${COLDIR}/chr${i}/all_samples_sp_collapse_chr${i}_isoform_full.psl ]; then
+        cat ${COLDIR}/chr${i}/all_samples_sp_collapse_chr${i}_isoform_full.psl
     else
         echo "Warning: PSL file missing for chr${i}, skipping."
     fi
-done > ${COLDIR}/all_samples_sp_collapse_all_chr_no_treatment_full.psl
+done > ${COLDIR}/all_samples_sp_collapse_all_chr_full.psl
 
 echo "Converting PSL to GTF..."
 python ${PSL_TO_GTF_SCRIPT} \
-    ${COLDIR}/all_samples_sp_collapse_all_chr_no_treatment_full.psl \
-> ${COLDIR}/all_samples_sp_collapse_all_chr_no_treatment_full.gtf
+    ${COLDIR}/all_samples_sp_collapse_all_chr_full.psl \
+> ${COLDIR}/all_samples_sp_collapse_all_chr_full.gtf
 
 echo "Activating SQANTI3 environment..."
 eval "$(conda shell.bash hook)"
@@ -88,14 +88,14 @@ conda activate ${SQANTI3_ENV}
 
 echo "Running SQANTI3 QC..."
 python ${SQANTI3_QC} \
-    ${COLDIR}/all_samples_sp_collapse_all_chr_no_treatment_full.gtf \
+    ${COLDIR}/all_samples_sp_collapse_all_chr_full.gtf \
     ${GTF} \
     ${REFERENCE} \
     --min_ref_len 0 \
     --force_id_ignore \
     --aligner_choice minimap2 \
     --skipORF \
-    -o all_samples_all_chr_no_treatment_sqanti3_qc \
+    -o all_samples_all_chr_sqanti3_qc \
     -d ${OUTDIR} \
     --report pdf
 
@@ -104,8 +104,8 @@ conda activate ${PACBIO_ENV}
 
 echo "Filtering intron retention events..."
 python ${FILTER_IR_SCRIPT} \
-    ${OUTDIR}/all_samples_all_chr_no_treatment_sqanti3_qc_classification.txt \
-    ${COLDIR}/all_samples_sp_collapse_all_chr_no_treatment_full.psl \
-    ${OUTDIR}/all_samples_sp_collapse_all_chr_no_treatment_noIR.psl
+    ${OUTDIR}/all_samples_all_chr_sqanti3_qc_classification.txt \
+    ${COLDIR}/all_samples_sp_collapse_all_chr_full.psl \
+    ${OUTDIR}/all_samples_sp_collapse_all_chr_noIR.psl
 
 echo "DONE."
