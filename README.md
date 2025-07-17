@@ -60,5 +60,14 @@ for i in {1..22} X Y; do
 done
 ```
 
+### `collapse_pacbio.sh`
+Before running this script, you should generate a `manifest.tsv` file that contains relevant information for each aligned fastq file. This file should only contain three columns, being (1) sample accession (2) tissue information, and (3) path to fastq file.
+```
+ENCFF011DHZ prefrontal_cortex /path/to/ENCFF011DHZ.fastq.gz
+ENCFF012NOH adrenal_gland /path/to/ENCFF012NOH.fastq.gz
+...
+```
+
+You should also have two bed files that contain relevant information about acceptable TSS and TES range (one bed file each). In our paper, ...
 
 `bash/run_pacbio_pipeline.sh` directs to all bash and R scripts needed to run the entire pipeline. For each file, edit user-defined variables to run on your data.
