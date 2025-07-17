@@ -50,7 +50,7 @@ In the bash script, insert correct user-defined variables for 1) a path to outpu
 
 For 6) path to FLAIR helper scripts, insert a path to where all FLAIR helper scripts are stored. You can download from FLAIR github directly, or just download files shared in this github repo.
 
-### `before_collapse.sh
+### `before_collapse.sh`
 In the bash script, insert correct user-defined variables for 1) path to input directory where all output files of `align_pacbio.sh` are stored in 2) genome annotation gtf 3) a path to ouput directory 4) a prefix for subset gtf files that will be generated from the input genome annotation gtf. 
 
 Also note that this script assumes the data are human data with chromosomes 1-22, X, and Y. Since this is hard-coded, if you wish to run this script on different species, please edit the numbers in the loop
