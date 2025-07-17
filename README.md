@@ -32,4 +32,22 @@ The pipeline executes the following steps in order:
 
 ## How to Run
 
-```bash/run_pacbio_pipeline.sh``` directs to all bash and R scripts needed to run the entire pipeline. For each file, edit user-defined variables to run on your data.
+### Download **environment.yaml** file to figure out all dependencies.
+
+### `align_pacbio.sh`
+Before running this script, you should confirm that all `fastq` files you wish to process are in a single directory. Then, create a textfile containing all filenames of `fastq` files you wish to process.
+```
+first.fastq.gz
+second.fastq.gz
+third.fastq.gz
+``` 
+You should also confirm that you have a file containing chromosome sizes for all chromosomes. You can generate one using pyfaidx as follows:
+```
+faidx /path/to/genome/reference.fa -i chromsizes > /path/to/output/chrNameLength.txt
+```
+
+In the bash script, insert correct user-defined variables for 1) a path to output directory 2) a path to genome reference 3) genome annotationg gtf 4) a chromosome length file 5) path to the directory where all raw `fastq` files are stored, and 6) textfile containing filenames that we craeted above.
+
+For 6) path to FLAIR helper scripts, insert a path to where all FLAIR helper scripts are stored. You can download from FLAIR github directly, or just download files shared in this github repo.
+
+`bash/run_pacbio_pipeline.sh` directs to all bash and R scripts needed to run the entire pipeline. For each file, edit user-defined variables to run on your data.

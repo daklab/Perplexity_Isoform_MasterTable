@@ -48,9 +48,6 @@ echo "Processing FASTQ: $FASTQ"
 
 OUTFILE=$(echo $FASTQ | cut -d . -f 1)
 
-module load minimap2/2.17
-module load samtools/1.9
-
 minimap2 -t 8 -ax splice:hq -uf $REFERENCE $FASTQDIR/$FASTQ > ${OUTDIR}/${OUTFILE}.sam
 
 samtools view -hSb ${OUTDIR}/${OUTFILE}.sam > ${OUTDIR}/${OUTFILE}.all.bam
@@ -58,5 +55,5 @@ samtools view -q 60 -F 2304 -hb ${OUTDIR}/${OUTFILE}.all.bam > ${OUTDIR}/${OUTFI
 samtools sort ${OUTDIR}/${OUTFILE}.bam -o ${OUTDIR}/${OUTFILE}.sorted.bam
 samtools index ${OUTDIR}/${OUTFILE}.sorted.bam
 
-python ${FLAIR_DIR}/bam2Bed12 -i ${OUTDIR}/${OUTFILE}.sorted.bam > ${OUTDIR}/${OUTFILE}.sorted.bed
-python ${FLAIR_DIR}/bed_to_psl $CHR ${OUTDIR}/${OUTFILE}.sorted.bed ${OUTDIR}/${OUTFILE}.psl
+python ${FLAIR_DIR}/bam2Bed12.py -i ${OUTDIR}/${OUTFILE}.sorted.bam > ${OUTDIR}/${OUTFILE}.sorted.bed
+python ${FLAIR_DIR}/bed_to_psl.py $CHR ${OUTDIR}/${OUTFILE}.sorted.bed ${OUTDIR}/${OUTFILE}.psl
