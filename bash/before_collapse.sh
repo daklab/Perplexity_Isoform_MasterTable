@@ -32,16 +32,9 @@ INDIR="/path/to/aligned_output"
 GTF="/path/to/gencode.v46.MScustom.gtf"
 OUTDIR="/path/to/output"
 
+GTFPREFIX="PREFIX_FOR_GTF_FILES"
+
 # ========================================
-
-# Check input GTF exists
-if [ ! -f "$GTF" ]; then
-    echo "ERROR: GTF file not found at $GTF"
-    exit 1
-fi
-
-# Create output directory if needed
-mkdir -p ${OUTDIR}
 
 echo "Splitting GTF file by chromosome..."
 awk -F'\t' '{print > "'${OUTDIR}'/"$1".gtf"}' ${GTF}
@@ -49,8 +42,8 @@ awk -F'\t' '{print > "'${OUTDIR}'/"$1".gtf"}' ${GTF}
 # Rename files to follow chr naming
 for i in {1..22} X Y; do
     if [ -f ${OUTDIR}/chr${i}.gtf ]; then
-        mv ${OUTDIR}/chr${i}.gtf ${OUTDIR}/gencode.v46.MScustom_chr${i}.gtf
-        echo "Created: ${OUTDIR}/gencode.v46.MScustom_chr${i}.gtf"
+        mv ${OUTDIR}/chr${i}.gtf ${OUTDIR}/${GTFPREFIX}_chr${i}.gtf
+        echo "Created: ${OUTDIR}/${GTFPREFIX}_chr${i}.gtf"
     fi
 done
 
