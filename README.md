@@ -32,7 +32,13 @@ The pipeline executes the following steps in order:
 
 ## How to Run
 
-### Download **environment.yaml** file to figure out all dependencies.
+Download **environment.yaml** file to figure out all dependencies and avoid manual installation of each package.
+To create a Conda environment from the file, use:
+```
+conda env create -f encode_pacbio.yml
+conda activate encode_pacbio
+```
+
 
 ### `align_pacbio.sh`
 Before running this script, you should confirm that all `fastq` files you wish to process are in a single directory. Then, create a textfile containing all filenames of `fastq` files you wish to process.
